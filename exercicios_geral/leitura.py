@@ -3,7 +3,7 @@ import sys
 def salva(nome, notas):
     file = open('.notas.txt', 'a')
     file.write(nome)
-    file.line
+    file.write('\n')
 
 
 n_alunos = int(sys.argv[1])
