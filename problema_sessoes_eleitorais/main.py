@@ -6,13 +6,13 @@ model = ConcreteModel()
 
 # Instance 1
 J = 5
-K = [6840, 2637, 2786, 2912, 1683]
+K = [6840, 2637, 2786, 2912, 1683] #Capacidades de J
 I = 25
 e = [1872, 124, 124, 124, 124, 1872, 124, 1872, 1872, 124, 124, 124, 124, 1872, 124, 124, 124, 124, 124, 124, 124, 124,
-     1872, 1872, 124]
+     1872, 1872, 124] #Demandas de I
 d = [
-    [1, 1, 1, 1, 1],
-    [2, 2, 2, 2, 2],
+    [10, 14, 12, 13, 11],
+    [20, 28, 26, 24, 23],
     [3, 3, 3, 3, 3],
     [4, 4, 4, 4, 4],
     [5, 5, 5, 5, 5],
@@ -42,7 +42,7 @@ S = 999999999
 
 # Laravel X = Instalar ou não o local de votação
 model.x = Var(range(J), domain=Binary)
-# Laravel X = Instalar ou não o local de votary
+# Laravel Y = Demanda i é atendida por j ou não
 model.y = Var(range(I), range(J), domain=Binary)
 
 # Função objective
@@ -61,5 +61,16 @@ model.con3 = Constraint(expr=sum(model.y[i, j] * d[i][j] for i in range(I) for j
 
 # Solutes
 opt = SolverFactory('glpk')
-opt.solve(model, timelimit=10).write()
+opt.solve(model, timelimit=30).write()
 print(model.obj.expr())
+
+# Impair valor's x
+print("Valor's x:")
+for i in range(J):
+    print(f"x[{i}] = {model.x[i].value}")
+
+# Impair valor's y
+print("\nValor's y:")
+for i in range(I):
+    for j in range(J):
+        print(f"y[{i},{j}] = {model.y[i,j].value}")
