@@ -53,18 +53,18 @@ model.cons = ConstraintList()
 
 # Restriction 1 Conforme visto em aula tem que estar em formato de lista, pq se não ele só adiciona 1 na con1, tem que ser uma lista de condição para cada restrição;
 for i in range(I):
-    model.cons.add = Constraint(expr=sum(model.y[i, j] for j in range(J)) == 1)
+    model.cons.add(sum(model.y[i, j] for j in range(J)) == 1)
 
 # Restriction 2
-model.cons.add = Constraint(expr=sum([e[i] * model.y[i, j] for i in range(I) for j in range(J)]) <= sum(K[j] * model.x[j]
+model.cons.add(sum([e[i] * model.y[i, j] for i in range(I) for j in range(J)]) <= sum(K[j] * model.x[j]
                                                                                                      for j in range(J)
                                                                                                      ))
 # Restriction 3
-model.cons.add = Constraint(expr=sum(model.y[i, j] * d[i][j] for i in range(I) for j in range(J)) <= S)
+model.cons.add(sum(model.y[i, j] * d[i][j] for i in range(I) for j in range(J)) <= S)
 
 # Solutes
 opt = SolverFactory('glpk')
-opt.solve(model, timelimit=30).write()
+opt.solve(model, timelimit=300).write()
 print(model.obj.expr())
 
 # Impair valor's x
