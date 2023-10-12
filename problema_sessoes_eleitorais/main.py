@@ -6,10 +6,14 @@ model = ConcreteModel()
 
 # Instance 1
 J = 5
-K = [6840, 2637, 2786, 2912, 1683] #Capacidades de J
+##K = [6840, 2637, 2786, 2912, 1683] #Capacidades de J
+K = [3132, 5300, 6500, 3233, 4345] ##Necessário garantir que a capacidade seja maior que a demanda sem quebrar demanda
 I = 25
 e = [1872, 124, 124, 124, 124, 1872, 124, 1872, 1872, 124, 124, 124, 124, 1872, 124, 124, 124, 124, 124, 124, 124, 124,
      1872, 1872, 124] #Demandas de I
+
+print(sum(K))
+print(sum(e))
 d = [
         [560, 6140, 7090, 7850, 11670],
         [2380, 4720, 5440, 6260, 11010],
@@ -46,21 +50,24 @@ model.x = Var(range(J), domain=Binary)
 model.y = Var(range(I), range(J), domain=Binary)
 
 # Função objective
-model.obj = Objective(expr=sum([M * model.x[i] for i in range(J)]) + sum([e[i] * d[i][j] * model.y[i, j]
+model.obj = Objective(expr=sum([M * model.x[j] for j in range(J)]) + sum([e[i] * d[i][j] * model.y[i, j]
                                                                           for i in range(I) for j in range(J)]))
 
 model.cons = ConstraintList()
 
-# Restriction 1 Conforme visto em aula tem que estar em formato de lista, pq se não ele só adiciona 1 na con1, tem que ser uma lista de condição para cada restrição;
-for i in range(I):
+# Restriction 1
+for i in range(I): ##O conjunto tem que ficar fora da restrição, no caso o Para todo e qualquer do modelo tem que
+   ##ser esse for fora.
     model.cons.add(sum(model.y[i, j] for j in range(J)) == 1)
 
 # Restriction 2
-model.cons.add(sum([e[i] * model.y[i, j] for i in range(I) for j in range(J)]) <= sum(K[j] * model.x[j]
-                                                                                                     for j in range(J)
-                                                                                                     ))
+for j in range(J):
+    model.cons.add(sum(e[i] * model.y[i, j] for i in range(I)) <= K[j] * model.x[j])
+
 # Restriction 3
-model.cons.add(sum(model.y[i, j] * d[i][j] for i in range(I) for j in range(J)) <= S)
+for i in range(I):
+    for j in range(J):
+       model.cons.add(model.y[i, j] * d[i][j] <= S)
 
 # Solutes
 opt = SolverFactory('glpk')
