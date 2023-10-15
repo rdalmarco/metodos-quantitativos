@@ -4,16 +4,13 @@ from pyomo.environ import *
 
 model = ConcreteModel()
 
-# Instance 1
+# Instance
 J = 5
-##K = [6840, 2637, 2786, 2912, 1683] #Capacidades de J
-K = [3132, 5300, 6500, 3233, 4345] ##Necessário garantir que a capacidade seja maior que a demanda sem quebrar demanda
+K = [8081, 3117, 3293, 3442, 1989]
 I = 25
 e = [1872, 124, 124, 124, 124, 1872, 124, 1872, 1872, 124, 124, 124, 124, 1872, 124, 124, 124, 124, 124, 124, 124, 124,
-     1872, 1872, 124] #Demandas de I
+     1872, 1872, 124]
 
-print(sum(K))
-print(sum(e))
 d = [
         [560, 6140, 7090, 7850, 11670],
         [2380, 4720, 5440, 6260, 11010],
@@ -77,10 +74,10 @@ print(model.obj.expr())
 # Impair valor's x
 print("Valor's x:")
 for i in range(J):
-    print(f"x[{i}] = {model.x[i].value}")
+    print(f"x[{i + 1}] = {model.x[i].value}")
 
 # Impair valor's y
 print("\nValor's y:")
 for i in range(I):
     for j in range(J):
-        print(f"y[{i},{j}] = {model.y[i,j].value}")
+        print(f"y[{i + 1},{j + 1}] = {model.y[i,j].value}")
