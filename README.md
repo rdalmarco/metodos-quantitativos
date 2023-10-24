@@ -2,6 +2,7 @@
 
 ## Assuntos abordados:
 
+* Pesquisa operacional;
 * Problemas de otimização;
 * Modelagem matemática;
 * Métodos de solução de problemas matêmáticos (Método gráfico, Simplex, M-Grande);
