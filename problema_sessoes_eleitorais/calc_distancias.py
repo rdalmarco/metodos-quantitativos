@@ -1,22 +1,8 @@
-def calcular_centros(n, m, L):
-    centros = []
-    for i in range(1, n+1):
-        for j in range(1, m+1):
-            x = (i - 1) * L + L/2
-            y = (j - 1) * L + L/2
-            centros.append((x, y))
-    return centros
-
-# Entradas
-n = 5
-m = 5
-L = 1920
 
 centros = calcular_centros(n, m, L)
 
-
-for i in range(25):
-    for j in range(25):
+for i in range(n * m):
+    for j in range(n * m):
         ponto1, ponto2 = centros[i], centros[j]
         if ponto1 == ponto2:
             distancia = 0
