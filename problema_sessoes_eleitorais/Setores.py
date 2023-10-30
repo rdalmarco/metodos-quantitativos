@@ -21,15 +21,17 @@ class Setores:
         pos_central = [(x, y)]
         return pos_central
 
-    def class_setor(pos_central, setores):
+    def class_setor(pos_central, setores, demanda_setores_total, num_set, porcent_pop_urbana, porcent_pop_rural):
         class_setores = {}
         pos_central_x, pos_central_y = pos_central[0]
         for i in range(len(setores)):
             setor = setores['chave' + str(i + 1)]['valor']
             x, y = setor
-            chave = 'chave' + str(i)
+            chave = 'chave' + str(i + 1)
             if (x < (pos_central_x + 100) and (y <= (pos_central_y + 100))):
-                class_setores[chave] = {'valor': 'urb'}
+                demanda_setor = (demanda_setores_total / num_set) * porcent_pop_urbana
+                class_setores[chave] = {'tipo': 'urb', 'demanda': demanda_setor}
             else:
-                class_setores[chave] = {'valor': 'rural'}
+                demanda_setor = (demanda_setores_total / num_set) * porcent_pop_rural
+                class_setores[chave] = {'tipo': 'rural', 'demanda': demanda_setor}
         return class_setores
