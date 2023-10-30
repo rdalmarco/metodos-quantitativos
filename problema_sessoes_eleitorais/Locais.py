@@ -17,14 +17,14 @@ class Locais:
                  if (class_setor == 'urb'):
                    random = r.random() < 0.35
                    if (random == 1):
-                    cap_atendimento_local = (cap_atendi_total/num_locais) * 0.70
+                    cap_atendimento_local = (cap_atendi_total/num_locais) * 1.30
                     inst_locais[chave] = {'valor' : cap_atendimento_local}
                     num_inst_locais += 1
                     class_setores_atual.pop(chave)
                    else:
                        random = r.random() < 0.10
                        if (random == 1):
-                          cap_atendimento_local = (cap_atendi_total / num_locais) * 0.30
+                          cap_atendimento_local = (cap_atendi_total / num_locais) * 0.70
                           inst_locais[chave] = {'valor' : cap_atendimento_local}
                           num_inst_locais += 1
                           class_setores_atual.pop(chave)
