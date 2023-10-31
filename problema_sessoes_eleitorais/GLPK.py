@@ -45,7 +45,7 @@ for i in range(I):
 
 # Solutes
 opt = SolverFactory('glpk')
-opt.solve(model, timelimit=3000).write()
+opt.solve(model, timelimit=30).write()
 print(model.obj.expr())
 
 # Impair valor's x

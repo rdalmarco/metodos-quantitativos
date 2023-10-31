@@ -4,8 +4,8 @@ from Locais import *
 
 num_set = 100
 lado = 20000
-num_locais = 10
-cap_atendi_total = 200000
+num_locais = 15
+cap_atendi_total = 400000
 demanda_setores_total = 120000
 porcent_pop_urbana = 1.24
 porcent_pop_rural = 0.76
