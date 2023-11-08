@@ -11,3 +11,7 @@
 * Programação Dinâmica;
 * Programação não Linear;
 * Solver de solução (GLPK e IPOPT);
+* Métodos heurísticos
+* Buscas Locais
+* GRASP (Greedy Randomized Adaptive Search Procedure)
+
