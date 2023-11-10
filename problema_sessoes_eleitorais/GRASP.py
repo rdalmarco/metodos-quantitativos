@@ -33,7 +33,7 @@ class Grasp:
         [9600, 6072, 5760, 3840, 0],
         [10861, 6923, 6072, 4293, 1920]
     ]
-    iTG = 0
+    iTG = 1
 
     @classmethod
     def todos_atendidos(self, Y):
@@ -80,9 +80,21 @@ class Grasp:
 
     @classmethod
     def execGrasp(cls):
-        i = 0
+        i = 1
+        espaco = [0] * cls.J
+        dem_alocada = [0] * cls.J
+        value = 0
         while i <= cls.iTG:
-             i = 1
+           i += 1
+           for j in range(len(cls.X)):
+              for k in range(len(cls.Y)):
+                if cls.Y[k] == j:
+                 value +=  cls.e[k]
+              dem_alocada[j] = value
+              value = 0
+           print(dem_alocada)
+
+
 
           #Foca em mudar Y, conforme descrito no trabalho modelo, a ideia é ir alocando os setores
           #em locais diferentes buscando diminuir a demanda ociosa dos locais e tentando zerar algum
@@ -102,3 +114,4 @@ class Grasp:
 
 
 Grasp.construction()
+Grasp.execGrasp()
