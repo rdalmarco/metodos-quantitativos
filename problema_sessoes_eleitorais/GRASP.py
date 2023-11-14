@@ -37,7 +37,8 @@ class Grasp:
     iTG = 500
     M = 10 """
 
-    Instancia.gera_instancia()
+    #Instancia.gera_instancia()
+    Instancia.carregar_instancia()
 
     # Instance
     J = Instancia.J
@@ -47,7 +48,7 @@ class Grasp:
     d = Instancia.d
     M = Instancia.M
     S = Instancia.S
-    iTG = 100
+    iTG = 200
 
     @classmethod
     def todos_atendidos(self, Y):
@@ -75,7 +76,7 @@ class Grasp:
 
 
         while cls.todos_atendidos(cls.Y):
-          Jcandidatos = [(0, 0)] * 3
+          Jcandidatos = [(0, 0)] * round(cls.J * 0.50)
           for j in range(0, cls.J):
             if cls.K[j] > min(Jcandidatos, key=lambda x: x[1])[1] and cls.X[j] == 0:
              index = Jcandidatos.index(min(Jcandidatos, key=lambda x: x[1]))
@@ -111,16 +112,16 @@ class Grasp:
         for j in range(len(dem_alocada)):
             for k in range(len(dem_alocada)):
                 dem_alocada = Grasp.calcDemandaAlocada()
-                if ((dem_alocada[j] + dem_alocada[k]) < cls.K[j]) and (cls.X[j] == 1) and (cls.X[k] == 1):
-                    cls.X[k] = 0
+                if ((dem_alocada[j] + dem_alocada[k]) < cls.K[j]) and (S_inicial_X[j] == 1) and (cls.X[k] == 1):
+                    S_inicial_X[k] = 0
                     print(k, 'Desalocado')
-                    for t in range(len(cls.Y)):
-                        if cls.Y[t] == k:
-                            cls.Y[t] = j
+                    for t in range(len(S_inicial_Y)):
+                        if S_inicial_Y[t] == k:
+                            S_inicial_Y[t] = j
 
-        print(cls.X)
-        print(cls.Y)
-        return cls.X, cls.Y
+        print(S_inicial_X)
+        print(S_inicial_Y)
+        return S_inicial_X, S_inicial_Y
 
 
     @classmethod
@@ -139,7 +140,9 @@ class Grasp:
 
            value_fo_final = sum(cls.M * S_final_X[j] for j in range(cls.J)) + sum([cls.e[i] * cls.d[i][j] *
                                                                          (1 if S_final_Y[i] == j else 0)for i in range(cls.I) for j in range(cls.J)])
-           print('Value FO', value_fo_final)
+
+           print('Value F0 Inicial',  value_fo_inicial)
+           print('Value FO Final', value_fo_final)
            if value_fo_inicial < value_fo_final:
                S_final_X = S_inicial_X
                S_final_Y = S_inicial_Y

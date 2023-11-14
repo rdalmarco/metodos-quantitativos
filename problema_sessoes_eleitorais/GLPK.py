@@ -4,7 +4,8 @@ from pyomo.environ import *
 
 model = ConcreteModel()
 
-Instancia.gera_instancia()
+#Instancia.gera_instancia()
+Instancia.carregar_instancia()
 
 # Instance
 J = Instancia.J

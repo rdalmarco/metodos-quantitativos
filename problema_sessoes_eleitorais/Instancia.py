@@ -69,7 +69,7 @@ class Instancia:
         print(cls.K)
         print(cls.e)
         print(cls.d)
-        Instancia.salvar_instancia('instancia.json')
+        Instancia.salvar_instancia()
 
     @classmethod
     def get_J(cls):
@@ -100,7 +100,7 @@ class Instancia:
         return cls.S
 
     @classmethod
-    def salvar_instancia(cls, arquivo):
+    def salvar_instancia(cls):
         instancia = {
             'J': cls.J,
             'K': cls.K,
@@ -111,8 +111,21 @@ class Instancia:
             'S': cls.S
         }
 
-        with open(arquivo, 'w') as file:
+        with open('instancia.json', 'w') as file:
             json.dump(instancia, file)
+
+    @classmethod
+    def carregar_instancia(cls):
+        with open('instancia.json', 'r') as file:
+            instancia = json.load(file)
+
+        cls.J = instancia['J']
+        cls.K = instancia['K']
+        cls.I = instancia['I']
+        cls.e = instancia['e']
+        cls.d = instancia['d']
+        cls.M = instancia['M']
+        cls.S = instancia['S']
 
 #Instancia.gera_instancia(num_set, lado)
 print('Centro setores')
