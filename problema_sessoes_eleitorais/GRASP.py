@@ -1,8 +1,9 @@
 import random
 
+from Instancia import *
 
 class Grasp:
-    I = 25  # Setores
+    """ I = 25  # Setores
     J = 5   # Locais
     K = [600, 900, 2600, 1050, 450]  # Capacidade locais
     e = [200, 100, 100, 100, 100, 200, 300, 600, 200, 350, 500, 140, 120, 110, 50, 60, 90, 10, 17, 21, 100, 230, 90, 20, 10] #Demanda setores
@@ -33,19 +34,32 @@ class Grasp:
         [9600, 6072, 5760, 3840, 0],
         [10861, 6923, 6072, 4293, 1920]
     ]
-    iTG = 1
+    iTG = 500
+    M = 10 """
+
+    Instancia.gera_instancia()
+
+    # Instance
+    J = Instancia.J
+    K = Instancia.K
+    I = Instancia.I
+    e = Instancia.e
+    d = Instancia.d
+    M = Instancia.M
+    S = Instancia.S
+    iTG = 100
 
     @classmethod
     def todos_atendidos(self, Y):
         for i in Y:
-            if i == 0:
+            if i == None:
               return True
         return False
     @classmethod
     def construction(cls):
         #Solução Vazia:
         cls.X = [0] * cls.J
-        cls.Y = [0] * cls.I
+        cls.Y = [None] * cls.I
 
         #Ideia professor:
         #VetorY: Saida vetor setores atendidos [3, 3, 3, 5, 5]
@@ -71,7 +85,7 @@ class Grasp:
           cls.X[Jescolhido] = 1
           while capAtual > 0:
               for i in range(0, len(cls.e)):
-                if cls.e[i] <= capAtual and cls.Y[i] == 0:
+                if cls.e[i] <= capAtual and cls.Y[i] == None:
                     cls.Y[i] = Jescolhido
                     capAtual = capAtual - cls.e[i]
               capAtual = 0
@@ -79,21 +93,66 @@ class Grasp:
         print(cls.Y)
 
     @classmethod
-    def execGrasp(cls):
-        i = 1
-        espaco = [0] * cls.J
+    def calcDemandaAlocada(cls):
         dem_alocada = [0] * cls.J
         value = 0
-        while i <= cls.iTG:
-           i += 1
-           for j in range(len(cls.X)):
-              for k in range(len(cls.Y)):
+        for j in range(len(cls.X)):
+            for k in range(len(cls.Y)):
                 if cls.Y[k] == j:
-                 value +=  cls.e[k]
-              dem_alocada[j] = value
-              value = 0
-           print(dem_alocada)
+                    value += cls.e[k]
+            dem_alocada[j] = value
+            value = 0
+        #print(dem_alocada)
+        return dem_alocada
 
+    @classmethod
+    def localSearch(cls, S_inicial_X, S_inicial_Y):
+        dem_alocada = Grasp.calcDemandaAlocada()
+        for j in range(len(dem_alocada)):
+            for k in range(len(dem_alocada)):
+                dem_alocada = Grasp.calcDemandaAlocada()
+                if ((dem_alocada[j] + dem_alocada[k]) < cls.K[j]) and (cls.X[j] == 1) and (cls.X[k] == 1):
+                    cls.X[k] = 0
+                    print(k, 'Desalocado')
+                    for t in range(len(cls.Y)):
+                        if cls.Y[t] == k:
+                            cls.Y[t] = j
+
+        print(cls.X)
+        print(cls.Y)
+        return cls.X, cls.Y
+
+
+    @classmethod
+    def execGrasp(cls):
+        i = 1
+        Grasp.construction()
+        S_inicial_X, S_inicial_Y = cls.X, cls.Y
+        S_final_X, S_final_Y = cls.X, cls.Y
+        while i <= cls.iTG:
+           print('Iteracao', i)
+           result_localSearch = Grasp.localSearch(S_inicial_X, S_inicial_Y)
+           S_inicial_X = result_localSearch[0]
+           S_inicial_Y = result_localSearch[1]
+           value_fo_inicial = sum(cls.M * S_inicial_X[j] for j in range(cls.J)) + sum([cls.e[i] * cls.d[i][j] *
+                                                                         (1 if S_inicial_Y[i] == j else 0)for i in range(cls.I) for j in range(cls.J)])
+
+           value_fo_final = sum(cls.M * S_final_X[j] for j in range(cls.J)) + sum([cls.e[i] * cls.d[i][j] *
+                                                                         (1 if S_final_Y[i] == j else 0)for i in range(cls.I) for j in range(cls.J)])
+           print('Value FO', value_fo_final)
+           if value_fo_inicial < value_fo_final:
+               S_final_X = S_inicial_X
+               S_final_Y = S_inicial_Y
+           Grasp.construction()
+           S_inicial_X = cls.X
+           S_inicial_Y = cls.Y
+           i += 1
+        print('Final Grasp', S_final_X)
+        print('Final Grasp', S_final_Y)
+        value_fo_good = sum(cls.M * S_final_X[j] for j in range(cls.J)) + sum([cls.e[i] * cls.d[i][j] *
+                                                                                (1 if S_final_Y[i] == j else 0) for i in
+                                                                                range(cls.I) for j in range(cls.J)])
+        print('Fo good', value_fo_good)
 
 
           #Foca em mudar Y, conforme descrito no trabalho modelo, a ideia é ir alocando os setores
@@ -112,6 +171,4 @@ class Grasp:
           #'importante'
 
 
-
-Grasp.construction()
 Grasp.execGrasp()

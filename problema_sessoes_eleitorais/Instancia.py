@@ -1,12 +1,14 @@
+import json
+
 from Distancias import *
 from Setores import *
 from Locais import *
 
-num_set = 100
+num_set = 400
 lado = 20000
-num_locais = 15
-cap_atendi_total = 400000
-demanda_setores_total = 120000
+num_locais = 25
+cap_atendi_total = 700000
+demanda_setores_total = 200000
 porcent_pop_urbana = 1.24
 porcent_pop_rural = 0.76
 dic_setores = {}
@@ -67,6 +69,7 @@ class Instancia:
         print(cls.K)
         print(cls.e)
         print(cls.d)
+        Instancia.salvar_instancia('instancia.json')
 
     @classmethod
     def get_J(cls):
@@ -95,6 +98,21 @@ class Instancia:
     @classmethod
     def get_S(cls):
         return cls.S
+
+    @classmethod
+    def salvar_instancia(cls, arquivo):
+        instancia = {
+            'J': cls.J,
+            'K': cls.K,
+            'I': cls.I,
+            'e': cls.e,
+            'd': cls.d,
+            'M': cls.M,
+            'S': cls.S
+        }
+
+        with open(arquivo, 'w') as file:
+            json.dump(instancia, file)
 
 #Instancia.gera_instancia(num_set, lado)
 print('Centro setores')
