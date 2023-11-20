@@ -37,8 +37,8 @@ class Grasp:
     iTG = 500
     M = 10 """
 
-    #Instancia.gera_instancia()
-    Instancia.carregar_instancia()
+    Instancia.gera_instancia()
+    #Instancia.carregar_instancia()
 
     # Instance
     J = Instancia.J
@@ -48,8 +48,8 @@ class Grasp:
     d = Instancia.d
     M = Instancia.M
     S = Instancia.S
-    iTG = 200
-
+    iTG = 200 #Iterações Grasp
+    iTL = 10 #Iterações Local Search
     @classmethod
     def todos_atendidos(self, Y):
         for i in Y:
@@ -75,8 +75,10 @@ class Grasp:
         #Será selecionado para atender um setor i o local com maior capacidade mais perto dele.
 
 
+        #Melhoria 1, Na construção, fazer a alocação considerando as distancias. Considera os setores próximos ao local instalado e começa a alocação por eles.
+        #Melhoria 2, Na busca local, é necessário fazer uma mudança de alocação, conforme está sendo feito, e depois fazer outra em cima dessa.
         while cls.todos_atendidos(cls.Y):
-          Jcandidatos = [(0, 0)] * round(cls.J * 0.50)
+          Jcandidatos = [(0, 0)] * round(cls.J * 0.90)
           for j in range(0, cls.J):
             if cls.K[j] > min(Jcandidatos, key=lambda x: x[1])[1] and cls.X[j] == 0:
              index = Jcandidatos.index(min(Jcandidatos, key=lambda x: x[1]))
@@ -108,21 +110,22 @@ class Grasp:
 
     @classmethod
     def localSearch(cls, S_inicial_X, S_inicial_Y):
-        dem_alocada = Grasp.calcDemandaAlocada()
-        for j in range(len(dem_alocada)):
-            for k in range(len(dem_alocada)):
-                dem_alocada = Grasp.calcDemandaAlocada()
-                if ((dem_alocada[j] + dem_alocada[k]) < cls.K[j]) and (S_inicial_X[j] == 1) and (cls.X[k] == 1):
-                    S_inicial_X[k] = 0
-                    print(k, 'Desalocado')
-                    for t in range(len(S_inicial_Y)):
-                        if S_inicial_Y[t] == k:
-                            S_inicial_Y[t] = j
-
-        print(S_inicial_X)
-        print(S_inicial_Y)
-        return S_inicial_X, S_inicial_Y
-
+       i = 0
+       while i <= cls.iTL:
+            i += 1
+            dem_alocada = Grasp.calcDemandaAlocada()
+            for j in range(len(dem_alocada)):
+                for k in range(len(dem_alocada)):
+                    dem_alocada = Grasp.calcDemandaAlocada()
+                    if ((dem_alocada[j] + dem_alocada[k]) < cls.K[j]) and (S_inicial_X[j] == 1) and (cls.X[k] == 1):
+                        S_inicial_X[k] = 0
+                        print(k, 'Desalocado')
+                        for t in range(len(S_inicial_Y)):
+                            if S_inicial_Y[t] == k:
+                                S_inicial_Y[t] = j
+       print(S_inicial_X)
+       print(S_inicial_Y)
+       return S_inicial_X, S_inicial_Y
 
     @classmethod
     def execGrasp(cls):

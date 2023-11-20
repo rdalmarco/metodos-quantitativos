@@ -4,10 +4,10 @@ from Distancias import *
 from Setores import *
 from Locais import *
 
-num_set = 400
+num_set = 196
 lado = 20000
 num_locais = 25
-cap_atendi_total = 700000
+cap_atendi_total = 300000
 demanda_setores_total = 200000
 porcent_pop_urbana = 1.24
 porcent_pop_rural = 0.76
