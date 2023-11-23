@@ -111,7 +111,7 @@ class Instancia:
             'S': cls.S
         }
 
-        with open('instancia.json', 'w') as file:
+        with open('instancia' + 1 + '.json', 'w') as file:
             json.dump(instancia, file)
 
     @classmethod
