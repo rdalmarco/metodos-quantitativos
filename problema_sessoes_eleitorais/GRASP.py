@@ -4,8 +4,8 @@ import time
 from Instancia import *
 
 class Grasp:
-    #Instancia.gera_instancia()
-    Instancia.carregar_instancia()
+    Instancia.gera_instancia()
+    #Instancia.carregar_instancia()
 
 
     # Instance
@@ -18,7 +18,7 @@ class Grasp:
     S = Instancia.S
     iTG = 100 #Iterações Grasp
     tTG = 300 #Tempo Grasp
-    iTL = 30 #Iterações Local Search
+    iTL = 15 #Iterações Local Search
     @classmethod
     def todos_atendidos(self, Y):
         for i in Y:
