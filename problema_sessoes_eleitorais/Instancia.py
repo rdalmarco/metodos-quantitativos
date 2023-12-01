@@ -4,11 +4,11 @@ from Distancias import *
 from Setores import *
 from Locais import *
 
-num_set = 196
-lado = 20000
+num_set = 400
+lado = 25000
 num_locais = 25
-cap_atendi_total = 300000
-demanda_setores_total = 200000
+cap_atendi_total = 400000
+demanda_setores_total = 300000
 porcent_pop_urbana = 1.24
 porcent_pop_rural = 0.76
 dic_setores = {}
@@ -23,7 +23,7 @@ class Instancia:
     I = num_set
     e = []
     d = [[]]
-    S = 100000
+    S = 30000
     M = 0
 
     @classmethod
@@ -111,12 +111,12 @@ class Instancia:
             'S': cls.S
         }
 
-        with open('instancia' + 1 + '.json', 'w') as file:
+        with open('instancia10.json', 'w') as file:
             json.dump(instancia, file)
 
     @classmethod
     def carregar_instancia(cls):
-        with open('instancia.json', 'r') as file:
+        with open('instancia3.json', 'r') as file:
             instancia = json.load(file)
 
         cls.J = instancia['J']
