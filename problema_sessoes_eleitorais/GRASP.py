@@ -4,7 +4,9 @@ import time
 from Instancia import *
 
 class Grasp:
-    Instancia.carregar_instancia()
+    Instancia.gera_instancia()
+    #Instancia.carregar_instancia()
+
 
     # Instance
     J = Instancia.J
@@ -94,7 +96,8 @@ class Grasp:
         Grasp.construction()
         S_inicial_X, S_inicial_Y = cls.X, cls.Y
         S_final_X, S_final_Y = cls.X, cls.Y
-        while cls.iTG and i < cls.iTG:
+        tempo_atual = time.time() - inicio
+        while (i < cls.iTG) and (tempo_atual < cls.tTG):
            print('Iteracao', i)
            result_localSearch = Grasp.localSearch(S_inicial_X, S_inicial_Y)
            S_inicial_X = result_localSearch[0]
@@ -111,9 +114,6 @@ class Grasp:
            print('Value FO Final', value_fo_final)
 
            if value_fo_inicial < value_fo_final:
-             if value_fo_inicial < 144568924.8241849:
-              print('0')
-
               S_final_X = S_inicial_X
               S_final_Y = S_inicial_Y
            Grasp.construction()

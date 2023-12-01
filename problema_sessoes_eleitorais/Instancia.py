@@ -7,7 +7,7 @@ from Locais import *
 num_set = 400
 lado = 25000
 num_locais = 25
-cap_atendi_total = 400000
+cap_atendi_total = 700000
 demanda_setores_total = 300000
 porcent_pop_urbana = 1.24
 porcent_pop_rural = 0.76
@@ -116,7 +116,7 @@ class Instancia:
 
     @classmethod
     def carregar_instancia(cls):
-        with open('instancia3.json', 'r') as file:
+        with open('instancia10.json', 'r') as file:
             instancia = json.load(file)
 
         cls.J = instancia['J']
@@ -127,7 +127,6 @@ class Instancia:
         cls.M = instancia['M']
         cls.S = instancia['S']
 
-#Instancia.gera_instancia(num_set, lado)
 print('Centro setores')
 print(dic_setores)
 print('Valor posição central')
